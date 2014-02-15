@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.leonarduk.freemind.search</groupId>
+	<artifactId>FreeMindSearch</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<!-- To create an executable jar -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.leonarduk.freemind.search.TextFileIndexer</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+			<!-- For running tests with Maven -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+			</plugin>
+		</plugins>
+	</build>
+	<properties>
+		<log4j.version>1.2.17</log4j.version>
+		<lucene.version>4.6.0</lucene.version>
+		<junit.version>4.11</junit.version>
+		<maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
+		<freemind.version>1.0.0</freemind.version>
+	</properties>
+	<dependencies>
+		<!-- mvn install:install-file -Dfile=/home/stephen/bin/freemind/lib/freemind.jar 
+			-DgroupId=net.sourceforge.freemind -DartifactId=freemind -Dversion=1.0.0 
+			-Dpackaging=jar -->
+		<dependency>
+			<groupId>net.sourceforge.freemind</groupId>
+			<artifactId>freemind</artifactId>
+			<version>${freemind.version}</version>
+		</dependency>
+		<!-- For Logger -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<!-- For test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+	</dependencies>
+</project>
