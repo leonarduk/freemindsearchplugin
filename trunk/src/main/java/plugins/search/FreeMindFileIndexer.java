@@ -115,6 +115,24 @@ public class FreeMindFileIndexer {
 		return index;
 	}
 
+	public Directory indexFileOrDirectory(File... fileName) throws IOException {
+		Directory index = new RAMDirectory();
+		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_46,
+				analyzer);
+		IndexWriter writer = new IndexWriter(index, config);
+
+		for (int i = 0; i < fileName.length; i++) {
+			indexFileOrDirectoryCore(fileName[i], writer);
+		}
+		// ===================================================
+		// after adding, we always have to call the
+		// closeIndex, otherwise the index is not created
+		// ===================================================
+		writer.close();
+
+		return index;
+	}
+
 	/**
 	 * Indexes a file or directory
 	 * 
@@ -125,9 +143,12 @@ public class FreeMindFileIndexer {
 	 * @throws java.io.IOException
 	 *             when exception
 	 */
-
 	public Directory indexFileOrDirectory(String fileName) throws IOException {
 		return indexFileOrDirectory(new String[] { fileName });
+	}
+
+	public Directory indexFileOrDirectory(File fileName) throws IOException {
+		return indexFileOrDirectory(new File[] { fileName });
 	}
 
 	/**
@@ -146,6 +167,22 @@ public class FreeMindFileIndexer {
 		// ===================================================
 		addFiles(new File(fileName));
 
+		return indexFiles(writer);
+	}
+
+	private int indexFileOrDirectoryCore(File fileName, IndexWriter writer)
+			throws IOException {
+		// ===================================================
+		// gets the list of files in a folder (if user has submitted
+		// the name of a folder) or gets a single file name (is user
+		// has submitted only the file name)
+		// ===================================================
+		addFiles(fileName);
+
+		return indexFiles(writer);
+	}
+
+	public int indexFiles(IndexWriter writer) throws IOException {
 		int originalNumDocs = writer.numDocs();
 		for (File f : queue) {
 			FileReader fr = null;

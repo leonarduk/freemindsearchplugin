@@ -66,7 +66,7 @@ public class FreeMindFileIndexerTest {
 			_logger.info("Results: " + hits.length);
 
 			assertEquals(1, hits.length);
-			
+
 			int docId = hits[0].doc;
 			Document d = searcher.doc(docId);
 			_logger.info(indexer.getPath(d) + " score=" + hits[0].score);
@@ -75,14 +75,14 @@ public class FreeMindFileIndexerTest {
 			String[] nameStrings = indexer.getFilepathsFromSearchResults(
 					searcher, results);
 			assertEquals(1, nameStrings.length);
-			_logger.info("Filename: " +nameStrings[0]);
+			_logger.info("Filename: " + nameStrings[0]);
 			assertTrue(nameStrings[0].equals(indexer.getPath(d)));
-			
 
 		} catch (IOException | ParseException e) {
 			_logger.fatal("Failed to start indexer", e);
 			fail();
 		}
 	}
+
 
 }
