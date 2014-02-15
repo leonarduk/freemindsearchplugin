@@ -22,13 +22,16 @@ package plugins.search;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import freemind.main.XMLElement;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.hooks.PermanentMindMapNodeHookAdapter;
+import freemind.view.MapModule;
 import freemind.view.mindmapview.NodeView;
 
 /**
@@ -92,17 +95,24 @@ public class SearchNodeHook extends PermanentMindMapNodeHookAdapter {
 	}
 
 	private void createViewer(NodeView view) {
-		SearchPanel panel = new SearchPanel(getController().getFrame().getJFrame());
+		SearchPanel panel = new SearchPanel(getController().getFrame()
+				.getJFrame());
 		panel.setVisible(true);
 		// view.getContentPane().add(panel);
 	}
 
-	public String getContent(String key) {
-		return equation;
+	public File[] getFilesOfOpenTabs() {
+		@SuppressWarnings("unchecked")
+		List<MapModule> maps = getController().getFrame().getController()
+				.getMapModuleManager().getMapModuleVector();
+		File[] mapFiles = new File[maps.size()];
+		for (int i = 0; i < mapFiles.length; i++) {
+			mapFiles[i] = maps.get(i).getModel().getFile();
+		}
+		return mapFiles;
 	}
 
 	public void setContent(String key, String content) {
-		equation = content;
 		Iterator iterator = viewers.iterator();
 		getController().nodeChanged(getNode());
 	}
