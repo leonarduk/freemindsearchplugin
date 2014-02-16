@@ -356,7 +356,7 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 
 			SearchResult selectedItem = (SearchResult) this.resultsList
 					.getSelectedValue();
-			scorePanel.setText(selectedItem.getPath());
+			scorePanel.setText(selectedItem.showDetails());
 		}
 	}
 
