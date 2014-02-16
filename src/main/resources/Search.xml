@@ -8,7 +8,7 @@
 		documentation="%plugins/search/SearchNodeHook.properties_documentation"
 		name="Search multiple maps" base="freemind.extensions.NodeHookAdapter"
 		label="plugins/search/SearchNodeHook.properties" class_name="plugins.search.SearchNodeHook"
-		instanciation="OncePerRoot">
+		instanciation="ApplyToRoot">
 		<plugin_mode class_name="freemind.modes.mindmapmode" />
 		<plugin_menu location="menu_bar/edit/other/SearchNodeHook" />
 	</plugin_action>
