@@ -109,6 +109,7 @@ public class SearchNodeHook extends PermanentMindMapNodeHookAdapter {
 		panel.setVisible(true);
 	}
 
+
 	public File[] getFilesOfOpenTabs() {
 		@SuppressWarnings("unchecked")
 		List<MapModule> maps = getController().getFrame().getController()
