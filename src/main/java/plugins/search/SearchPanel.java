@@ -306,7 +306,11 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 		splitPane.setDividerLocation(0.5);
 		content.add(splitPane, BorderLayout.CENTER);
 		setMainPanelText("Choose search terms and select go");
+		
+		criteriaPanel.setMinimumSize(criteriaPanel.getPreferredSize());
+		content.setMinimumSize(content.getPreferredSize());
 		setMinimumSize(getPreferredSize());
+
 	}
 
 	public void updateSelectedFolderField() {
