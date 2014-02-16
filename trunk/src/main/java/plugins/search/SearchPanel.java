@@ -105,12 +105,13 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 
 			{
 				putValue(NAME, "Open Maps");
-				putValue(SHORT_DESCRIPTION, "Some short description");
+				putValue(SHORT_DESCRIPTION, "Search the maps currently open in the application");
 			}
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnChooseDirectoryButton.setEnabled(false);
+				btnGoButton.setEnabled(true);
 			}
 		});
 
@@ -122,19 +123,21 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 
 			{
 				putValue(NAME, "Directory Search");
-				putValue(SHORT_DESCRIPTION, "Some short description");
+				putValue(SHORT_DESCRIPTION,
+						"Choose a folder with Freemind maps");
 			}
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnChooseDirectoryButton.setEnabled(true);
+				updateSelectedFolderField();
 			}
 		});
 		btnGoButton = new JButton("Go");
 		btnGoButton.addActionListener(new AbstractAction() {
 			{
 				putValue(NAME, "Go");
-				putValue(SHORT_DESCRIPTION, "Some short description");
+				putValue(SHORT_DESCRIPTION, "Search for the chosen terms");
 			}
 
 			@Override
@@ -156,7 +159,7 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 		btnChooseDirectoryButton.setAction(new AbstractAction() {
 			{
 				putValue(NAME, "Choose Directory");
-				putValue(SHORT_DESCRIPTION, "Some short description");
+				putValue(SHORT_DESCRIPTION, "Choose Directory");
 			}
 
 			@Override
@@ -306,7 +309,7 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 		splitPane.setDividerLocation(0.5);
 		content.add(splitPane, BorderLayout.CENTER);
 		setMainPanelText("Choose search terms and select go");
-		
+
 		criteriaPanel.setMinimumSize(criteriaPanel.getPreferredSize());
 		content.setMinimumSize(content.getPreferredSize());
 		setMinimumSize(getPreferredSize());
@@ -323,7 +326,6 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 		} else {
 			selectedDirectoryField.setText(this.selectedDirectory.getPath());
 			this.btnGoButton.setEnabled(true);
-
 		}
 	}
 
