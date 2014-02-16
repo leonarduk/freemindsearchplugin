@@ -43,7 +43,7 @@ public class Search {
 			try {
 				int docId = hits[i].doc;
 				d = searcher.doc(docId);
-				listData[i] = new SearchResult(hits[i].doc,
+				listData[i] = new SearchResult(i + 1, hits[i].doc,
 						indexer.getFilename(d), indexer.getPath(d),
 						hits[i].score, hits[i].shardIndex);
 				_logger.fine(i + " " + listData[i]);
@@ -62,9 +62,11 @@ public class Search {
 
 		private float score;
 		private int shardIndex;
+		private int rank;
 
-		public SearchResult(int docId, String fileName, String path,
+		public SearchResult(int rank, int docId, String fileName, String path,
 				float score, int shardIndex) {
+			this.rank = rank;
 			this.fileName = fileName;
 			this.path = path;
 			this.docId = docId;
@@ -72,9 +74,17 @@ public class Search {
 			this.shardIndex = shardIndex;
 		}
 
+		public String showDetails() {
+			return getPath() + "\n" + getScore();
+		}
+
 		@Override
 		public String toString() {
-			return getFileName();
+			return getRank() + " (" + getScore() + ") " + getFileName();
+		}
+
+		public int getRank() {
+			return this.rank;
 		}
 
 		public int getDocId() {
