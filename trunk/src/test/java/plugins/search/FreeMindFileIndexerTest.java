@@ -59,8 +59,8 @@ public class FreeMindFileIndexerTest {
 		try {
 			FreeMindFileIndexer indexer = new FreeMindFileIndexer(Logger
 					.getLogger(FreeMindFileIndexerTest.class.getName()));
-			// try to add file into the index
-			Directory index = indexer.indexFileOrDirectory(mapsDir);
+			// try to add file into the index 
+			Directory index = indexer.indexFileOrDirectory(new File(mapsDir));
 
 			IndexSearcher searcher = indexer.getSearcher(index);
 			Query query = indexer.getQuery("votre");

@@ -51,13 +51,6 @@
 			<artifactId>freemind</artifactId>
 			<version>${freemind.version}</version>
 		</dependency>
-		<!-- For layout -->
-		<dependency>
-			<groupId>com.miglayout</groupId>
-			<artifactId>miglayout-swing</artifactId>
-			<version>4.2</version>
-		</dependency>
-		
 		<!-- For test -->
 		<dependency>
 			<groupId>junit</groupId>

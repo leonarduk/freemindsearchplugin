@@ -104,10 +104,9 @@ public class SearchNodeHook extends PermanentMindMapNodeHookAdapter {
 	}
 
 	private void createViewer(NodeView view) {
-		SearchPanel panel = new SearchPanel(getController().getFrame()
-				.getJFrame(), getLogger(SearchPanel.class));
+		SearchPanel panel = new SearchPanel(this, getController().getFrame()
+				.getJFrame());
 		panel.setVisible(true);
-		// view.getContentPane().add(panel);
 	}
 
 	public File[] getFilesOfOpenTabs() {
