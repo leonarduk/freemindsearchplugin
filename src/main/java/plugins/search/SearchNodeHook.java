@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import freemind.main.XMLElement;
 import freemind.modes.MindMapNode;
@@ -56,6 +57,14 @@ public class SearchNodeHook extends PermanentMindMapNodeHookAdapter {
 		super();
 		equation = "\\mbox{I}^\\fgcolor{ff0000}{\\heartsuit}\\mbox{HotEqn}";
 		viewers = new LinkedHashSet();
+		if (logger == null) {
+			logger = getController().getFrame().getLogger(
+					this.getClass().getName());
+		}
+	}
+
+	public Logger getLogger(Class className) {
+		return getController().getFrame().getLogger(className.getName());
 	}
 
 	public void onViewCreatedHook(NodeView nodeView) {
@@ -96,7 +105,7 @@ public class SearchNodeHook extends PermanentMindMapNodeHookAdapter {
 
 	private void createViewer(NodeView view) {
 		SearchPanel panel = new SearchPanel(getController().getFrame()
-				.getJFrame());
+				.getJFrame(), getLogger(SearchPanel.class));
 		panel.setVisible(true);
 		// view.getContentPane().add(panel);
 	}

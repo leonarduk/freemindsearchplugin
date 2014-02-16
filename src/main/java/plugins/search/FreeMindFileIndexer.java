@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -36,9 +36,6 @@ public class FreeMindFileIndexer {
 	private enum FileAttribute {
 		filename, path, contents
 	}
-
-	private static final Logger _logger = Logger
-			.getLogger(FreeMindFileIndexer.class);
 
 	private static StandardAnalyzer analyzer = new StandardAnalyzer(
 			Version.LUCENE_46);
@@ -83,8 +80,11 @@ public class FreeMindFileIndexer {
 	 * Constructor
 	 * 
 	 */
-	FreeMindFileIndexer() {
+	FreeMindFileIndexer(Logger logger) {
+		this._logger = logger;
 	}
+
+	private Logger _logger = null;
 
 	/**
 	 * Indexes a file or directory
@@ -202,7 +202,7 @@ public class FreeMindFileIndexer {
 				writer.addDocument(doc);
 				_logger.info("Added: " + f);
 			} catch (Exception e) {
-				_logger.warn("Could not add: " + f);
+				_logger.warning("Could not add: " + f);
 			} finally {
 				fr.close();
 			}
@@ -242,7 +242,7 @@ public class FreeMindFileIndexer {
 	private void addFiles(File file) {
 
 		if (!file.exists()) {
-			_logger.warn(file + " does not exist.");
+			_logger.warning(file + " does not exist.");
 		}
 		if (file.isDirectory()) {
 			for (File f : file.listFiles()) {
@@ -256,7 +256,7 @@ public class FreeMindFileIndexer {
 			if (filename.endsWith(FREEMIND_FILENAME_SUFFIX)) {
 				queue.add(file);
 			} else {
-				_logger.debug("Skipped " + filename);
+				_logger.fine("Skipped " + filename);
 			}
 		}
 	}
