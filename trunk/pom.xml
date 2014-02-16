@@ -37,7 +37,6 @@
 		</plugins>
 	</build>
 	<properties>
-		<log4j.version>1.2.17</log4j.version>
 		<lucene.version>4.6.0</lucene.version>
 		<junit.version>4.11</junit.version>
 		<maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
@@ -51,12 +50,6 @@
 			<groupId>net.sourceforge.freemind</groupId>
 			<artifactId>freemind</artifactId>
 			<version>${freemind.version}</version>
-		</dependency>
-		<!-- For Logger -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
 		</dependency>
 		<!-- For layout -->
 		<dependency>
