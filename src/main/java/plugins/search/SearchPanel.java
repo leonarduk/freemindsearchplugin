@@ -12,13 +12,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -34,12 +32,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.ScoreDoc;
 
-import freemind.modes.ModeController;
 import plugins.search.Search.SearchResult;
 
 public class SearchPanel extends JDialog implements ListSelectionListener {
@@ -84,7 +78,7 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 	 * Create the application.
 	 */
 	public SearchPanel(JFrame frame, Logger logger) {
-		super(frame, "Search Multiple Maps", true);
+		super(frame, "Search Multiple Maps", false);
 		this._logger = logger;
 		initialize();
 	}
@@ -107,9 +101,6 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 	private JSplitPane splitPane;
 	private JTextArea scorePanel;
 	private JScrollPane resultsListPane;
-	private IndexSearcher searcher;
-	private FreeMindFileIndexer indexer;
-	private ScoreDoc[] hits;
 
 	/**
 	 * Initialize the contents of the frame.
