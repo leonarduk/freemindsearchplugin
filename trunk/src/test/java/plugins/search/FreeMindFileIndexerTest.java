@@ -1,11 +1,14 @@
 package plugins.search;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -20,7 +23,7 @@ import org.junit.Test;
 public class FreeMindFileIndexerTest {
 
 	private static final Logger _logger = Logger
-			.getLogger(FreeMindFileIndexerTest.class);
+			.getLogger(FreeMindFileIndexerTest.class.getName());
 
 	String mapsDir = "data";
 
@@ -31,7 +34,8 @@ public class FreeMindFileIndexerTest {
 	@Test
 	public void indexFileOrDirectory() {
 
-		FreeMindFileIndexer indexer = new FreeMindFileIndexer();
+		FreeMindFileIndexer indexer = new FreeMindFileIndexer(
+				Logger.getLogger(FreeMindFileIndexerTest.class.getName()));
 		// try to add file into the index
 		try {
 			Directory index = indexer.indexFileOrDirectory(mapsDir);
@@ -45,7 +49,7 @@ public class FreeMindFileIndexerTest {
 
 			assertSame(listOfFiles.length, reader.numDocs());
 		} catch (IOException e) {
-			_logger.fatal("Failed to index " + mapsDir);
+			_logger.warning("Failed to index " + mapsDir);
 			fail();
 		}
 	}
@@ -53,7 +57,8 @@ public class FreeMindFileIndexerTest {
 	@Test
 	public void findVotre() {
 		try {
-			FreeMindFileIndexer indexer = new FreeMindFileIndexer();
+			FreeMindFileIndexer indexer = new FreeMindFileIndexer(Logger
+					.getLogger(FreeMindFileIndexerTest.class.getName()));
 			// try to add file into the index
 			Directory index = indexer.indexFileOrDirectory(mapsDir);
 
@@ -79,10 +84,8 @@ public class FreeMindFileIndexerTest {
 			assertTrue(nameStrings[0].equals(indexer.getPath(d)));
 
 		} catch (IOException | ParseException e) {
-			_logger.fatal("Failed to start indexer", e);
+			_logger.warning("Failed to start indexer" + e.getMessage());
 			fail();
 		}
 	}
-
-
 }
