@@ -1,38 +1,42 @@
 package plugins.search;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.apache.log4j.Logger;
+import javax.swing.Action;
 
 public class SearchChooserPanel extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 711092098054705805L;
 	private static final Logger _logger = Logger
 			.getLogger(SearchChooserPanel.class);
-	private JFrame frame;
 	private JTextField searchFieldstextField;
 	private JTextField selectedDirectoryField;
 	private JTable resultsTable;
-	private final Action chooseDirectoryAction = new ChooseDirectoryAction();
+	private static JButton btnChooseDirectoryButton;
+	private JPanel selectionPanel;
+	private final Action action = new SwingAction();
 
 	/**
 	 * Launch the application.
@@ -58,43 +62,105 @@ public class SearchChooserPanel extends JDialog {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
- 
+
 		int width = 800;
 		int height = 600;
 		this.setBounds(0, 0, width, height);
-		JPanel selectionPanel = new JPanel();
-		selectionPanel.setBounds(0, 0, width, 100);
 
-		JLabel lblSearchFor = new JLabel("Search for");
-		selectionPanel.add(lblSearchFor);
+		// Top panel
+		selectionPanel = new JPanel();
+		selectionPanel.setLayout(new MigLayout());
+		getContentPane().add(selectionPanel);
 
-		searchFieldstextField = new JTextField();
-		selectionPanel.add(searchFieldstextField);
-		searchFieldstextField.setColumns(30);
-		this.setLayout(new GridLayout(2, 0, 0, 0));
-		this.add(selectionPanel);
+		selectionPanel.add(createSearchTermsPanel(), "wrap");
+		selectionPanel.add(createRadioButtonsPanel(), "wrap");
+		selectionPanel.add(createDirectoryChooserPanel());
+
+		// Bottom panel
+		JPanel resultsPanel = new JPanel();
+		getContentPane().add(resultsPanel);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setAction(action);
+		resultsPanel.add(btnNewButton);
+
+		resultsTable = new JTable();
+		resultsPanel.add(resultsTable);
+	}
+
+	public JPanel createRadioButtonsPanel() {
 
 		JPanel radioButtonPanel = new JPanel();
-		selectionPanel.add(radioButtonPanel); 
 		radioButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
- 
+
 		JRadioButton searchOpenMapsButton = new JRadioButton("Search Open Maps");
+		searchOpenMapsButton.setAction(new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				btnChooseDirectoryButton.setEnabled(false);
+			}
+
+		});
 		searchOpenMapsButton.setSelected(true);
 		radioButtonPanel.add(searchOpenMapsButton);
 
-		JRadioButton searchDirectoryButton = new JRadioButton("Search Directory");
+		JRadioButton searchDirectoryButton = new JRadioButton(
+				"Search Directory");
+		searchDirectoryButton.setText(getName());
+		searchDirectoryButton.setAction(new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnChooseDirectoryButton.setEnabled(true);
+			}
+		});
 		radioButtonPanel.add(searchDirectoryButton);
 
-	    // Group the radio buttons.
-	    ButtonGroup group = new ButtonGroup();
-	    group.add(searchOpenMapsButton);
-	    group.add(searchDirectoryButton);
-	    
-		JPanel directoryChooserPanel = new JPanel();
-		selectionPanel.add(directoryChooserPanel);
+		// Group the radio buttons.
+		ButtonGroup radioGroup = new ButtonGroup();
+		radioGroup.add(searchOpenMapsButton);
+		radioGroup.add(searchDirectoryButton);
+		return radioButtonPanel;
+	}
 
-		JButton btnChooseDirectoryButton = new JButton("Choose Directory");
-		btnChooseDirectoryButton.setAction(chooseDirectoryAction);
+	public JPanel createDirectoryChooserPanel() {
+		JPanel directoryChooserPanel = new JPanel();
+		btnChooseDirectoryButton = new JButton("Choose Directory");
+		btnChooseDirectoryButton.setEnabled(false);
+		btnChooseDirectoryButton.setAction(new AbstractAction() {
+
+			private File selectedDirectory;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				_logger.debug("Opened file chooser");
+				JFileChooser fc = new JFileChooser() {
+
+					@Override
+					protected JDialog createDialog(Component parent)
+							throws HeadlessException {
+						JDialog dialog = super.createDialog(parent);
+						// config here as needed - just to see a difference
+						dialog.setLocationByPlatform(true);
+						// might help - can't know because I can't reproduce the
+						// problem
+						dialog.setAlwaysOnTop(true);
+						return dialog;
+					}
+
+				};
+				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				int retValue = fc.showOpenDialog(null);
+				if (retValue == JFileChooser.APPROVE_OPTION) {
+					selectedDirectory = fc.getSelectedFile();
+					selectedDirectoryField.setText(selectedDirectory.getPath());
+					_logger.info("Selected : " + selectedDirectory);
+				} else {
+					_logger.debug("Cancelled");
+				}
+			}
+		});
 		directoryChooserPanel.add(btnChooseDirectoryButton);
 
 		selectedDirectoryField = new JTextField();
@@ -102,51 +168,25 @@ public class SearchChooserPanel extends JDialog {
 		directoryChooserPanel.add(selectedDirectoryField);
 		selectedDirectoryField.setColumns(20);
 
-		JPanel resultsPanel = new JPanel();
-		this.add(resultsPanel);
-
-		resultsTable = new JTable();
-		resultsPanel.add(resultsTable);
+		return directoryChooserPanel;
 	}
 
-	private class ChooseDirectoryAction extends AbstractAction {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -2799316312136042279L;
-		private File selectedDirectory;
+	public JPanel createSearchTermsPanel() {
+		JPanel searchTermsPanel = new JPanel();
+		JLabel lblSearchFor = new JLabel("Search for");
+		searchTermsPanel.add(lblSearchFor);
 
-		public ChooseDirectoryAction() {
-			putValue(NAME, "Choose Directory");
-			putValue(SHORT_DESCRIPTION, "Choose directory to search");
+		searchFieldstextField = new JTextField();
+		searchTermsPanel.add(searchFieldstextField);
+		searchFieldstextField.setColumns(30);
+		return searchTermsPanel;
+	}
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
-
 		public void actionPerformed(ActionEvent e) {
-			_logger.debug("Opened file chooser");
-			JFileChooser fc = new JFileChooser() {
-
-				@Override
-				protected JDialog createDialog(Component parent)
-						throws HeadlessException {
-					JDialog dialog = super.createDialog(parent);
-					// config here as needed - just to see a difference
-					dialog.setLocationByPlatform(true);
-					// might help - can't know because I can't reproduce the
-					// problem
-					dialog.setAlwaysOnTop(true);
-					return dialog;
-				}
-
-			};
-			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			int retValue = fc.showOpenDialog(null);
-			if (retValue == JFileChooser.APPROVE_OPTION) {
-				selectedDirectory = fc.getSelectedFile();
-				_logger.info("Selected : " + selectedDirectory);
-			} else {
-				_logger.debug("Cancelled");
-			}
 		}
 	}
-
 }
