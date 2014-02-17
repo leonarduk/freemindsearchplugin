@@ -68,7 +68,7 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 			}
 		}
 
-		File[] files = new File[] {new File("data/freemind.mm")};
+		File[] files = new File[] { new File("data/freemind.mm") };
 		SearchPanel searchPanel = new SearchPanel(new TestHook(files),
 				new JFrame());
 		searchPanel.setVisible(true);
@@ -90,8 +90,7 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 	}
 
 	public SearchPanel(SearchNodeHook searchNodeHook, JFrame jFrame) {
-		this(jFrame, searchNodeHook
-				.getLogger(SearchPanel.class));
+		this(jFrame, searchNodeHook.getLogger(SearchPanel.class));
 		this.searchNodeHook = searchNodeHook;
 	}
 
@@ -340,24 +339,29 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
 		updateScorePanel();
+		SearchResult selectedItem = getSelectedItem();
+		if (null != selectedItem) {
+			this.searchNodeHook.openMap(selectedItem.getPath());
+		}
 	}
 
 	public void updateScorePanel() {
-		int selectedIndex = this.resultsList.getSelectedIndex();
-		if (selectedIndex < 0) {
-			if (this.resultsList.getModel().getSize() < 0) {
-				setMainPanelText("No results");
-			} else {
-				selectedIndex = 0;
-			}
-		} else {
-
-			StringBuilder buf = new StringBuilder();
-
-			SearchResult selectedItem = (SearchResult) this.resultsList
-					.getSelectedValue();
+		SearchResult selectedItem = getSelectedItem();
+		if (null != selectedItem) {
 			scorePanel.setText(selectedItem.showDetails());
 		}
+	}
+
+	public SearchResult getSelectedItem() {
+		SearchResult selectedItem = null;
+		int selectedIndex = this.resultsList.getSelectedIndex();
+		if (this.resultsList.getModel().getSize() > -1) {
+			if (selectedIndex < 0) {
+				selectedIndex = 0;
+			}
+			selectedItem = (SearchResult) this.resultsList.getSelectedValue();
+		}
+		return selectedItem;
 	}
 
 	public void setMainPanelText(String text) {

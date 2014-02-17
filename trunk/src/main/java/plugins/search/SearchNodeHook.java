@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.swing.JComponent;
+
+import freemind.main.FreeMindMain;
 import freemind.main.XMLElement;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.hooks.PermanentMindMapNodeHookAdapter;
@@ -109,6 +112,11 @@ public class SearchNodeHook extends PermanentMindMapNodeHookAdapter {
 		panel.setVisible(true);
 	}
 
+	public boolean openMap(String mapModule) {
+		logger.warning("open map :" + mapModule);
+		return getController().getFrame().getController().getMapModuleManager()
+				.tryToChangeToMapModule(mapModule);
+	}
 
 	public File[] getFilesOfOpenTabs() {
 		@SuppressWarnings("unchecked")
