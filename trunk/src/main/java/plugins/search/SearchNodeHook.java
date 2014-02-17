@@ -97,6 +97,9 @@ public class SearchNodeHook extends PermanentMindMapNodeHookAdapter {
 
 	}
 
+	/**
+	 * 
+	 */
 	public void invoke(MindMapNode node) {
 		Iterator iterator = node.getViewers().iterator();
 		while (iterator.hasNext()) {
