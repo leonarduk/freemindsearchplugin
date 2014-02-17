@@ -1,0 +1,20 @@
+Installation Instructions:
+
+Copy the Search.xml file and the search folder to your Freemind plugins folder.
+Restart FreeMind. 
+
+NB: If you are looking in the correct folder, there should now be these files (more if you have installed other plugins):
+
+collaboration            
+CollaborationSocket.xml  
+FreemindHelp.xml  
+help              
+MapViewer.xml        
+map               
+Search.xml
+search
+ScriptingEngine.xml  
+script               
+ExportSvg.xml            
+svg
+ 
