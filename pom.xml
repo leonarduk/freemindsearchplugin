@@ -6,7 +6,7 @@
 	<description>The main app only allows you to search the current open map. This plugin will allow you to search multiple maps for chosen key words.</description>
 	<groupId>com.leonarduk.freemind.search</groupId>
 	<artifactId>freemindsearchplugin</artifactId>
-	<version>0.1</version>
+	<version>0.2-SNAPSHOT</version>
 	<properties>
 		<sourceforge.name>freemindsearchplugin</sourceforge.name>
 		<maven.test.failure.ignore>false</maven.test.failure.ignore>
