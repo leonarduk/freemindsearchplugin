@@ -1,0 +1,15 @@
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+	<properties>
+		<title>Freemind Search Plugin</title>
+		<author email="sourceforge@leonarduk.com">Stephen Leonard</author>
+	</properties>
+	<body>
+		<release version="0.1" date="2014-02-17"
+			description="First cut. Integrates with FreeMind.">
+			<action type="add" dev="Stephen Leonard">Implemented minimum working plugin.</action>
+			<action type="add" dev="Stephen Leonard">Created Maven repository</action>
+		</release>
+	</body>
+</document>
