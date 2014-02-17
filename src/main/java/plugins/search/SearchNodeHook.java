@@ -112,10 +112,9 @@ public class SearchNodeHook extends PermanentMindMapNodeHookAdapter {
 		panel.setVisible(true);
 	}
 
-	public boolean openMap(String mapModule) {
-		logger.warning("open map :" + mapModule);
-		return getController().getFrame().getController().getMapModuleManager()
-				.tryToChangeToMapModule(mapModule);
+	public void openMap(String mapModule) {
+		logger.fine("open map :" + mapModule);
+		getController().loadURL(mapModule);
 	}
 
 	public File[] getFilesOfOpenTabs() {
