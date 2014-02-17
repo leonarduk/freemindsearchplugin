@@ -25,7 +25,7 @@ public class SearchTest {
 			SearchResult[] results = search.runSearch("votre",
 					new File[] { new File("data") });
 			assertEquals(1, results.length);
-			assertTrue("freemind_fr.mm".equals(results[0].toString()));
+			assertTrue("freemind_fr.mm".equals(results[0].getFileName()));
 		} catch (IOException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
