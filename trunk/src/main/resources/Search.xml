@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <plugin label="plugins/search/SearchNodeHook">
-	<plugin_classpath jar="search/freemindsearchplugin-0.1.jar" />
+	<plugin_classpath jar="search/freemindsearchplugin-MAVEN_VERSION.jar" />
 	<plugin_classpath jar="search/lucene-core-4.6.0.jar" />
 	<plugin_classpath jar="search/lucene-analyzers-common-4.6.0.jar" />
 	<plugin_classpath jar="search/lucene-queryparser-4.6.0.jar" />
