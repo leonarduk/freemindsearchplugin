@@ -29,9 +29,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.swing.JComponent;
+import javax.swing.JFrame;
 
-import freemind.main.FreeMindMain;
 import freemind.main.XMLElement;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.hooks.PermanentMindMapNodeHookAdapter;
@@ -50,13 +49,14 @@ import freemind.view.mindmapview.NodeView;
  * @version $Date:: $: Date of last commit
  * 
  */
-public class SearchNodeHook extends PermanentMindMapNodeHookAdapter {
+public class SearchControllerHook extends PermanentMindMapNodeHookAdapter implements
+		ISearchController {
 	private String equation;
 	private Set viewers;
 
 	/**
 	 */
-	public SearchNodeHook() {
+	public SearchControllerHook() {
 		super();
 		equation = "\\mbox{I}^\\fgcolor{ff0000}{\\heartsuit}\\mbox{HotEqn}";
 		viewers = new LinkedHashSet();
@@ -110,9 +110,13 @@ public class SearchNodeHook extends PermanentMindMapNodeHookAdapter {
 	}
 
 	private void createViewer(NodeView view) {
-		SearchPanel panel = new SearchPanel(this, getController().getFrame()
-				.getJFrame());
+		SearchViewPanel panel = SearchViewPanel.getInstance(this);
 		panel.setVisible(true);
+	}
+
+	public JFrame getJFrame() {
+		return getController()
+				.getFrame().getJFrame();
 	}
 
 	public void openMap(String mapModule) {
@@ -153,4 +157,8 @@ public class SearchNodeHook extends PermanentMindMapNodeHookAdapter {
 		super.shutdownMapHook();
 	}
 
+	@Override
+	public void setWaitingCursor(boolean waiting) {
+		getController().getFrame().setWaitingCursor(waiting);
+	}
 }
