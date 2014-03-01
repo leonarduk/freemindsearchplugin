@@ -19,6 +19,8 @@
 			<action type="add" dev="Stephen Leonard" issue="9">Plugin should
 				remember state
 			</action>
+			<action type="fix" dev="Stephen Leonard" issue="12">BUG - search dialog pops up when opening or closing map tabs
+			</action>
 
 			<action type="add" dev="Stephen Leonard" issue="13">Use maven
 				project version in plugin config file
