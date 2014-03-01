@@ -34,7 +34,7 @@ public class FreeMindFileIndexerTest {
 	@Test
 	public void indexFileOrDirectory() {
 
-		FreeMindFileIndexer indexer = new FreeMindFileIndexer(
+		FileSearchModel indexer = new FileSearchModel(
 				Logger.getLogger(FreeMindFileIndexerTest.class.getName()));
 		// try to add file into the index
 		try {
@@ -57,7 +57,7 @@ public class FreeMindFileIndexerTest {
 	@Test
 	public void findVotre() {
 		try {
-			FreeMindFileIndexer indexer = new FreeMindFileIndexer(Logger
+			FileSearchModel indexer = new FileSearchModel(Logger
 					.getLogger(FreeMindFileIndexerTest.class.getName()));
 			// try to add file into the index 
 			Directory index = indexer.indexFileOrDirectory(new File(mapsDir));

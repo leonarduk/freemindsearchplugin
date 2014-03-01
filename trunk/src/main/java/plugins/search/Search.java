@@ -14,7 +14,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 
 public class Search {
-	private FreeMindFileIndexer indexer;
+	private FileSearchModel indexer;
 	private Logger _logger;
 	private IndexSearcher searcher;
 	private ScoreDoc[] hits;
@@ -25,7 +25,7 @@ public class Search {
 
 	public SearchResult[] runSearch(String searchString, File[] mapsFiles)
 			throws IOException, ParseException {
-		indexer = new FreeMindFileIndexer(_logger);
+		indexer = new FileSearchModel(_logger);
 		_logger.fine("runSearch :" + searchString + " in " + mapsFiles);
 		Directory index = indexer.indexFileOrDirectory(mapsFiles);
 

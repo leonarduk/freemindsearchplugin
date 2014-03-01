@@ -29,7 +29,7 @@ import org.apache.lucene.util.Version;
  * This terminal application creates an Apache Lucene index in a folder and adds
  * files into this index based on the input of the user.
  */
-public class FreeMindFileIndexer {
+public class FileSearchModel {
 
 	public static final String FREEMIND_FILENAME_SUFFIX = ".mm";
 
@@ -80,7 +80,7 @@ public class FreeMindFileIndexer {
 	 * Constructor
 	 * 
 	 */
-	FreeMindFileIndexer(Logger logger) {
+	FileSearchModel(Logger logger) {
 		this._logger = logger;
 	}
 

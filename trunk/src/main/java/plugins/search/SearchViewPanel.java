@@ -36,7 +36,7 @@ import org.apache.lucene.queryparser.classic.ParseException;
 
 import plugins.search.Search.SearchResult;
 
-public class SearchPanel extends JDialog implements ListSelectionListener {
+public class SearchViewPanel extends JDialog implements ListSelectionListener {
 
 	private JTextField searchTermsField = new JTextField();
 	private JRadioButton rdbtnOpen;
@@ -44,13 +44,13 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 	private final ButtonGroup directoryButtonGroup = new ButtonGroup();
 	private JButton btnChooseDirectoryButton;
 	private JTextField selectedDirectoryField = new JTextField();
-	private SearchNodeHook searchNodeHook;
+	private SearchControllerHook searchNodeHook;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		class TestHook extends SearchNodeHook {
+		class TestHook implements ISearchController {
 			private File[] files;
 
 			public TestHook(File[] files) {
@@ -66,32 +66,42 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 			public File[] getFilesOfOpenTabs() {
 				return this.files;
 			}
+
+			@Override
+			public void setWaitingCursor(boolean waiting) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public JFrame getJFrame() {
+				return new JFrame();
+			}
 		}
 
 		File[] files = new File[] { new File("data/freemind.mm") };
-		SearchPanel searchPanel = new SearchPanel(new TestHook(files),
-				new JFrame());
+		SearchViewPanel searchPanel = SearchViewPanel.getInstance(new TestHook(files));
 		searchPanel.setVisible(true);
 	}
 
 	/**
 	 * Create the application.
 	 */
-	public SearchPanel(JFrame frame, Logger logger) {
-		super(frame, "Search Multiple Maps", false);
-		this._logger = logger;
+	private SearchViewPanel(ISearchController searchController) {
+		super(searchController.getJFrame(), "Search Multiple Maps", false);
+		this._logger = searchController.getLogger(SearchViewPanel.class);
 		initialize();
+
 	}
+
+	private static SearchViewPanel instance = null;
 
 	private static Logger _logger = null;
 
-	public SearchPanel() {
-		this(null, Logger.getLogger(SearchPanel.class.getName()));
-	}
-
-	public SearchPanel(SearchNodeHook searchNodeHook, JFrame jFrame) {
-		this(jFrame, searchNodeHook.getLogger(SearchPanel.class));
-		this.searchNodeHook = searchNodeHook;
+	public static SearchViewPanel getInstance(ISearchController searchController) {
+		if (null == instance) {
+			instance = new SearchViewPanel(searchController);
+		}
+		return instance;
 	}
 
 	private File selectedDirectory;
