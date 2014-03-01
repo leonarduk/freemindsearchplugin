@@ -38,6 +38,10 @@ import plugins.search.Search.SearchResult;
 
 public class SearchViewPanel extends JDialog implements ListSelectionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4038199355190689628L;
 	private JTextField searchTermsField = new JTextField();
 	private JRadioButton rdbtnOpen;
 	private JRadioButton rdbtnDirectorySearch;
@@ -79,7 +83,8 @@ public class SearchViewPanel extends JDialog implements ListSelectionListener {
 		}
 
 		File[] files = new File[] { new File("data/freemind.mm") };
-		SearchViewPanel searchPanel = SearchViewPanel.getInstance(new TestHook(files));
+		SearchViewPanel searchPanel = SearchViewPanel.getInstance(new TestHook(
+				files));
 		searchPanel.setVisible(true);
 	}
 
@@ -358,7 +363,7 @@ public class SearchViewPanel extends JDialog implements ListSelectionListener {
 	public void updateScorePanel() {
 		SearchResult selectedItem = getSelectedItem();
 		if (null != selectedItem) {
-			scorePanel.setText(selectedItem.showDetails());
+			scorePanel.setText(selectedItem.getPath());
 		}
 	}
 
