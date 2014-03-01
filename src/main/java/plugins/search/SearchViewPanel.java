@@ -2,6 +2,7 @@ package plugins.search;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,6 +32,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -328,35 +330,49 @@ public class SearchViewPanel extends JDialog implements ListSelectionListener {
 
 	public void updateSelectedFolderField() {
 		if (null == this.selectedDirectory) {
-			selectedDirectoryField.setText("[No folder selected]");
-			this.btnGoButton.setEnabled(false);
-			this.btnGoButton
-					.setToolTipText("Choose a valid folder or open maps before doing search");
-
-		} else {
-			selectedDirectoryField.setText(this.selectedDirectory.getPath());
-			this.btnGoButton.setEnabled(true);
+			this.selectedDirectory = new File(System.getProperty("user.dir"));
 		}
+
+		this.btnGoButton
+				.setToolTipText("Choose a valid folder or open maps before doing search");
+
+		selectedDirectoryField.setText(this.selectedDirectory.getPath());
+		this.btnGoButton.setEnabled(true);
 	}
 
 	private void runSearch() throws IOException, ParseException {
-		File[] mapsFiles;
-		boolean isDirectoryMode = isDirectoryMode();
-		if (isDirectoryMode) {
-			mapsFiles = new File[] { new File(selectedDirectoryField.getText()) };
-		} else {
-			mapsFiles = this.searchControllerHook.getFilesOfOpenTabs();
+		SwingUtilities.getRoot(this).setCursor(
+				Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		setMainPanelText("Starting search...");
+
+		try {
+			File[] mapsFiles;
+			boolean isDirectoryMode = isDirectoryMode();
+			if (isDirectoryMode) {
+				File file = new File(selectedDirectoryField.getText());
+				mapsFiles = new File[] { file };
+				if (!file.exists()) {
+					String message = "Directory does not exist:"
+							+ selectedDirectoryField.getText();
+					setMainPanelText(message);
+					throw new ParseException(message);
+				}
+			} else {
+				mapsFiles = this.searchControllerHook.getFilesOfOpenTabs();
+			}
+
+			String searchString = this.searchTermsField.getText();
+			setMainPanelText("Searching [" + Arrays.asList(mapsFiles)
+					+ "] for [" + searchString + "]");
+
+			Search search = new Search(_logger);
+
+			Object[] listData = search.runSearch(searchString, mapsFiles);
+			resultsList.setListData(listData);
+			updateScorePanel();
+		} finally {
+			SwingUtilities.getRoot(this).setCursor(Cursor.getDefaultCursor());
 		}
-
-		String searchString = this.searchTermsField.getText();
-		setMainPanelText("Searching [" + Arrays.asList(mapsFiles) + "] for ["
-				+ searchString + "]");
-
-		Search search = new Search(_logger);
-
-		Object[] listData = search.runSearch(searchString, mapsFiles);
-		resultsList.setListData(listData);
-		updateScorePanel();
 
 	}
 
@@ -388,7 +404,7 @@ public class SearchViewPanel extends JDialog implements ListSelectionListener {
 	public void updateScorePanel() {
 		SearchResult selectedItem = getSelectedItem();
 		if (null != selectedItem) {
-			scorePanel.setText(selectedItem.getPath());
+			setMainPanelText(selectedItem.getPath());
 		}
 	}
 
