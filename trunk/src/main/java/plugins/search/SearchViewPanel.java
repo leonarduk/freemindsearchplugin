@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -28,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -48,7 +50,7 @@ public class SearchViewPanel extends JDialog implements ListSelectionListener {
 	private final ButtonGroup directoryButtonGroup = new ButtonGroup();
 	private JButton btnChooseDirectoryButton;
 	private JTextField selectedDirectoryField = new JTextField();
-	private SearchControllerHook searchNodeHook;
+	private ISearchController searchControllerHook;
 
 	/**
 	 * Launch the application.
@@ -80,6 +82,12 @@ public class SearchViewPanel extends JDialog implements ListSelectionListener {
 			public JFrame getJFrame() {
 				return new JFrame();
 			}
+
+			@Override
+			public void openMap(String path) {
+				// TODO Auto-generated method stub
+
+			}
 		}
 
 		File[] files = new File[] { new File("data/freemind.mm") };
@@ -94,6 +102,8 @@ public class SearchViewPanel extends JDialog implements ListSelectionListener {
 	private SearchViewPanel(ISearchController searchController) {
 		super(searchController.getJFrame(), "Search Multiple Maps", false);
 		this._logger = searchController.getLogger(SearchViewPanel.class);
+
+		this.searchControllerHook = searchController;
 		initialize();
 
 	}
@@ -159,6 +169,21 @@ public class SearchViewPanel extends JDialog implements ListSelectionListener {
 		searchTermsField = new JTextField();
 		searchTermsField.setColumns(30);
 		searchTermsField.setMinimumSize(searchTermsField.getPreferredSize());
+
+		// React when the user presses Enter while the editor is
+		// active. (Tab is handled as specified by
+		// JFormattedTextField's focusLostBehavior property.)
+		searchTermsField.getInputMap().put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "search");
+		searchTermsField.getActionMap().put("search", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					runSearch();
+				} catch (IOException | ParseException e1) {
+					_logger.warning("Failed:" + e1.getLocalizedMessage());
+				}
+			}
+		});
 
 		GridBagConstraints gbc_searchTermsField = new GridBagConstraints();
 		gbc_searchTermsField.fill = GridBagConstraints.BOTH;
@@ -320,7 +345,7 @@ public class SearchViewPanel extends JDialog implements ListSelectionListener {
 		if (isDirectoryMode) {
 			mapsFiles = new File[] { new File(selectedDirectoryField.getText()) };
 		} else {
-			mapsFiles = this.searchNodeHook.getFilesOfOpenTabs();
+			mapsFiles = this.searchControllerHook.getFilesOfOpenTabs();
 		}
 
 		String searchString = this.searchTermsField.getText();
@@ -356,7 +381,7 @@ public class SearchViewPanel extends JDialog implements ListSelectionListener {
 		updateScorePanel();
 		SearchResult selectedItem = getSelectedItem();
 		if (null != selectedItem) {
-			this.searchNodeHook.openMap(selectedItem.getPath());
+			this.searchControllerHook.openMap(selectedItem.getPath());
 		}
 	}
 
