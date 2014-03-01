@@ -1,6 +1,7 @@
 package plugins.search;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -165,7 +166,11 @@ public class FileSearchModel {
 		// the name of a folder) or gets a single file name (is user
 		// has submitted only the file name)
 		// ===================================================
-		addFiles(new File(fileName));
+		File file = new File(fileName);
+		if(!file.exists()) {
+			throw new FileNotFoundException("Can't open " + fileName);
+		}
+		addFiles(file);
 
 		return indexFiles(writer);
 	}
