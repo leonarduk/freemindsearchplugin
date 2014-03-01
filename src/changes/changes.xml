@@ -6,9 +6,18 @@
 		<author email="sourceforge@leonarduk.com">Stephen Leonard</author>
 	</properties>
 	<body>
+		<release version="0.2" description="First cut. Integrates with FreeMind.">
+			<action type="add" dev="Stephen Leonard" issue="7">Allow editing
+				of selected folder field
+			</action>
+			<action type="add" dev="Stephen Leonard" issue="13">Use maven
+				project version in plugin config file
+			</action>
+		</release>
 		<release version="0.1" date="2014-02-17"
 			description="First cut. Integrates with FreeMind.">
-			<action type="add" dev="Stephen Leonard">Implemented minimum working plugin.</action>
+			<action type="add" dev="Stephen Leonard">Implemented minimum working plugin.
+			</action>
 			<action type="add" dev="Stephen Leonard">Created Maven repository</action>
 		</release>
 	</body>
