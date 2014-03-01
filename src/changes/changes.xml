@@ -6,9 +6,12 @@
 		<author email="sourceforge@leonarduk.com">Stephen Leonard</author>
 	</properties>
 	<body>
-		<release version="0.2-SNAPSHOT" description="First set of GUI improvements.">
+		<release version="0.2" date="2014-04-01" description="First set of GUI improvements.">
 			<action type="add" dev="Stephen Leonard" issue="3">Remove Score
 				from text panel when click on result
+			</action>
+			<action type="add" dev="Stephen Leonard" issue="6">Clicking return
+				from search box should activate "search" button
 			</action>
 			<action type="add" dev="Stephen Leonard" issue="7">Allow editing
 				of selected folder field

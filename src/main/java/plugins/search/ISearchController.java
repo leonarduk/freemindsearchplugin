@@ -27,4 +27,6 @@ public interface ISearchController {
 	
 	public File[] getFilesOfOpenTabs();
 
+	public void openMap(String path);
+
 }
