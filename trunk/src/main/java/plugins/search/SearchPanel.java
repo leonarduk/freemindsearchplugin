@@ -267,7 +267,7 @@ public class SearchPanel extends JDialog implements ListSelectionListener {
 		gbc_btnChooseDirectoryButton.gridy = 2;
 		criteriaPanel.add(btnChooseDirectoryButton,
 				gbc_btnChooseDirectoryButton);
-		selectedDirectoryField.setEditable(false);
+		selectedDirectoryField.setEditable(true);
 		selectedDirectoryField.setColumns(10);
 		GridBagConstraints gbc_selectedDirectoryField = new GridBagConstraints();
 		gbc_selectedDirectoryField.fill = GridBagConstraints.BOTH;
