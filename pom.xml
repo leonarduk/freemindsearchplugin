@@ -13,6 +13,7 @@
 		<maven.test.skip>false</maven.test.skip>
 		<java.version>1.7</java.version>
 		<!-- dependencies checked at http://search.maven.org/ 2014-02-11 -->
+		<replacer.version>1.5.2</replacer.version>
 		<lucene.version>4.6.0</lucene.version>
 		<junit.version>4.11</junit.version>
 		<maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
@@ -106,6 +107,31 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<!-- add correct version to Search.xml -->
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>${replacer.version}</version>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<file>${basedir}/src/main/resources/Search.xml
+					</file>
+					<outputFile>${project.build.directory}/classes/Search.xml</outputFile>
+					<replacements>
+						<replacement>
+							<token>MAVEN_VERSION</token>
+							<value>${project.version}</value>
+						</replacement>
+					</replacements>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
