@@ -8,6 +8,7 @@
 	<body>
 		<release version="0.3" date="2014-04-04" description="Second set of GUI improvements.">
 			<action type="add" dev="Stephen Leonard" issue="3">update jar
+			</action>
 		</release>
 		<release version="0.2" date="2014-03-04" description="First set of GUI improvements.">
 			<action type="add" dev="Stephen Leonard" issue="3">Remove Score
