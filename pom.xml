@@ -6,7 +6,7 @@
 	<description>The main app only allows you to search the current open map. This plugin will allow you to search multiple maps for chosen key words.</description>
 	<groupId>com.leonarduk.freemind.search</groupId>
 	<artifactId>freemindsearchplugin</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.3-SNAPSHOT</version>
 	<properties>
 		<sourceforge.name>freemindsearchplugin</sourceforge.name>
 		<maven.test.failure.ignore>false</maven.test.failure.ignore>
@@ -203,6 +203,10 @@
 			<id>${sourceforge.name}.sourceforge.net</id>
 			<name>SourceForge shell repo</name>
 			<url>sftp://leonarduk,${sourceforge.name}@web.sourceforge.net:/home/project-web/${sourceforge.name}/htdocs/maven</url>
+		</repository>
+		<repository>
+			<id>leonarduk-ftp</id>
+			<url>ftp://leonarduk.com/public_html/maven2</url>
 		</repository>
 	</distributionManagement>
 	<issueManagement>
