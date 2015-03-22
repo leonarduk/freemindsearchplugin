@@ -6,7 +6,10 @@
 		<author email="sourceforge@leonarduk.com">Stephen Leonard</author>
 	</properties>
 	<body>
-		<release version="0.2" date="2014-04-01" description="First set of GUI improvements.">
+		<release version="0.3" date="2014-04-04" description="Second set of GUI improvements.">
+			<action type="add" dev="Stephen Leonard" issue="3">update jar
+		</release>
+		<release version="0.2" date="2014-03-04" description="First set of GUI improvements.">
 			<action type="add" dev="Stephen Leonard" issue="3">Remove Score
 				from text panel when click on result
 			</action>
@@ -19,7 +22,8 @@
 			<action type="add" dev="Stephen Leonard" issue="9">Plugin should
 				remember state
 			</action>
-			<action type="fix" dev="Stephen Leonard" issue="12">BUG - search dialog pops up when opening or closing map tabs
+			<action type="fix" dev="Stephen Leonard" issue="12">BUG - search
+				dialog pops up when opening or closing map tabs
 			</action>
 
 			<action type="add" dev="Stephen Leonard" issue="13">Use maven
