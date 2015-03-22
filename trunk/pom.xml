@@ -204,11 +204,13 @@
 			<name>SourceForge shell repo</name>
 			<url>sftp://leonarduk,${sourceforge.name}@web.sourceforge.net:/home/project-web/${sourceforge.name}/htdocs/maven</url>
 		</repository>
+	</distributionManagement>
+<repositories>
 		<repository>
 			<id>leonarduk-ftp</id>
 			<url>ftp://leonarduk.com/public_html/maven2</url>
 		</repository>
-	</distributionManagement>
+</repositories>
 	<issueManagement>
 		<system>SourceForge2</system>
 		<url>https://sourceforge.net/p/${sourceforge.name}/tickets/</url>
