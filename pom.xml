@@ -208,7 +208,7 @@
 <repositories>
 		<repository>
 			<id>leonarduk-ftp</id>
-			<url>ftp://leonarduk.com/public_html/maven2</url>
+			<url>http://leonarduk.com/maven2</url>
 		</repository>
 </repositories>
 	<issueManagement>
