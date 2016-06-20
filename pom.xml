@@ -18,6 +18,7 @@
 		<junit.version>4.11</junit.version>
 		<maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
 		<freemind.version>1.0.0</freemind.version>
+		<jacoco.version>0.7.6.201602180812</jacoco.version>
 		<junit.version>4.11</junit.version>
 		<maven.verion>2.2.1</maven.verion>
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
@@ -65,6 +66,12 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>${jacoco.version}</version>
+			<type>maven-plugin</type>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -108,6 +115,33 @@
 					</execution>
 				</executions>
 			</plugin>
+				<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<excludes>
+						<exclude>uk/co/sleonard/unison/gui/*.class</exclude>
+						<exclude>uk/co/sleonard/unison/gui/generated/*.class</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			
 			<!-- add correct version to Search.xml -->
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
