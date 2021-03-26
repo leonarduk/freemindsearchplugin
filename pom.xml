@@ -11,7 +11,7 @@
 		<sourceforge.name>freemindsearchplugin</sourceforge.name>
 		<maven.test.failure.ignore>false</maven.test.failure.ignore>
 		<maven.test.skip>false</maven.test.skip>
-		<java.version>1.7</java.version>
+		<java.version>11</java.version>
 		<!-- dependencies checked at http://search.maven.org/ 2014-02-11 -->
 		<replacer.version>1.5.2</replacer.version>
 		<lucene.version>8.8.1</lucene.version>
