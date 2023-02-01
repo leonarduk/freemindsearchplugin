@@ -18,7 +18,7 @@
 		<junit.version>4.13.1</junit.version>
 		<maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
 		<freemind.version>1.0.0</freemind.version>
-		<jacoco.version>0.7.6.201602180812</jacoco.version>
+		<jacoco.version>0.8.8</jacoco.version>
 		<junit.version>4.11</junit.version>
 		<maven.verion>2.2.1</maven.verion>
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
